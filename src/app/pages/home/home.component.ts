@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { LoadTodos } from '../store/todo.action';
+import { todoQuery } from '../store/todo.selector';
 
 @Component({
   selector: 'app-home',
@@ -6,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  loading:boolean = false;
+  loading$ = this.store.select(todoQuery.loading);
+  todos$ = this.store.select(todoQuery.todos);
+  
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
+
+    this.store.dispatch(LoadTodos());
   }
 
 }
