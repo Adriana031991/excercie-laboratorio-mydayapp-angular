@@ -82,6 +82,10 @@ export class TodoService {
     
   }
 
+  clearCompleted():Observable<Todo[]>{
+    let todos: Todo[] = this.getTodo();
+    return of(todos.filter(todo => !todo.completed))
+  }
 
   saveTodoInStorage(todos: Todo[]) {
     localStorage.setItem('mydayapp-angular', JSON.stringify(todos));

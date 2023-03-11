@@ -104,6 +104,21 @@ export class TodoEffects {
         )
     });
 
+    clearCompletedTodos$ = createEffect(() => {
+        return this.actions$.pipe(
+            ofType(action.ClearTodo),
+            exhaustMap(
+                () => this.service.clearCompleted().pipe(
+                    map((data) => {
+                        return action.ClearTodoSuccess({ data })
+                    }
+                    ),
+                    catchError((error) => of(action.ClearTodoFailure({ error })))
+                )
+            )
+        )
+    });
+
 }
 
 

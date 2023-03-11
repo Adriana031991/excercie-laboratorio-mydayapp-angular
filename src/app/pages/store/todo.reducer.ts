@@ -2,7 +2,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { ErrorModel } from 'src/app/Model/error.model';
 import { Filter } from 'src/app/Model/filter.interface';
 import { Todo } from 'src/app/Model/todo.model';
-import { ClearTodo, Create, CreateSuccess, Delete, Edit, Toggle, CreateFailure, ToggleSuccess, ToggleFailure, EditSuccess, EditFailure, DeleteSuccess, DeleteFailure, LoadTodos, LoadTodosSuccess, LoadTodosFailure, FilterTodo, FilterTodoSuccess, FilterTodoFailure } from './todo.action';
+import { ClearTodo, Create, CreateSuccess, Delete, Edit, Toggle, CreateFailure, ToggleSuccess, ToggleFailure, EditSuccess, EditFailure, DeleteSuccess, DeleteFailure, LoadTodos, LoadTodosSuccess, LoadTodosFailure, FilterTodo, FilterTodoSuccess, FilterTodoFailure, ClearTodoSuccess, ClearTodoFailure } from './todo.action';
 
 export interface TodoState {
     todos: Todo[];
@@ -25,10 +25,16 @@ const _todoReducer = createReducer(initialState,
 
     on(ClearTodo, (state): TodoState => ({
         ...state,
-        todos: [],
-        error: null,
-        message: '',
-        loading: false
+    }
+    )),
+    on(ClearTodoSuccess, (state, {data}): TodoState => ({
+        ...state,
+        todos:data
+    }
+    )),
+    on(ClearTodoFailure, (state, {error}): TodoState => ({
+        ...state,
+        error
     }
     )),
 

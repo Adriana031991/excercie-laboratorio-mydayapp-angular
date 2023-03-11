@@ -28,4 +28,6 @@ export const FilterTodo = createAction('[TODO] filter todo', props<{ filter: Fil
 export const FilterTodoSuccess = createAction('[TODO] filter todo success', props<{ data: Todo[]  }>());
 export const FilterTodoFailure = createAction('[TODO] filter todo failure', props<{ error: ErrorModel }>());
 
-export const ClearTodo = createAction('[TODO] delete todo');
+export const ClearTodo = createAction('[TODO] clear completed todo');
+export const ClearTodoSuccess = createAction('[TODO] clear completed todo success', props<{ data: Todo[]  }>());
+export const ClearTodoFailure = createAction('[TODO] clear completed todo failure', props<{ error: ErrorModel }>());
