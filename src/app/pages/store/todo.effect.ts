@@ -89,6 +89,21 @@ export class TodoEffects {
         )
     });
 
+    filterTodos$ = createEffect(() => {
+        return this.actions$.pipe(
+            ofType(action.FilterTodo),
+            exhaustMap(
+                ({filter}) => this.service.filterTodos(filter).pipe(
+                    map((data) => {
+                        return action.FilterTodoSuccess({ data })
+                    }
+                    ),
+                    catchError((error) => of(action.FilterTodoFailure({ error })))
+                )
+            )
+        )
+    });
+
 }
 
 

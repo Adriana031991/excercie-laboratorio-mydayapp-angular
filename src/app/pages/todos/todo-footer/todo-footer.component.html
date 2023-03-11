@@ -7,8 +7,8 @@
       <li *ngFor="let item of filters | keyvalue">
         <a 
         (click)="selectFilter(item.value)" 
-        class="selected" 
         [class.selected]="item.value === actualFilter"
+        routerLink="/{{item.value}}" routerLinkActive="selected" 
         >
         {{item.value}}
       </a>
@@ -16,5 +16,5 @@
 
     </ul>
     <!-- Hidden if no completed items are left ↓ -->
-    <button class="clear-completed" (click)="clearCompleted()">Clear completed</button>
+    <button class="clear-completed" (click)="clearCompleted()" *ngIf="countComplete >0">Clear completed</button>
   </footer>

@@ -9,6 +9,7 @@ import { TodoHeaderComponent } from './todos/todo-header/todo-header.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PluralPipe } from './pipes/plural.pipe';
 import { FilterPipe } from './pipes/filter.pipe';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -25,7 +26,8 @@ import { FilterPipe } from './pipes/filter.pipe';
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   exports: [
     HomeComponent

@@ -1,22 +1,23 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { ErrorModel } from 'src/app/Model/error.model';
+import { Filter } from 'src/app/Model/filter.interface';
 import { Todo } from 'src/app/Model/todo.model';
-import { ClearTodo, Create, CreateSuccess, Delete, Edit, Toggle, CreateFailure, ToggleSuccess, ToggleFailure, EditSuccess, EditFailure, DeleteSuccess, DeleteFailure, LoadTodos, LoadTodosSuccess, LoadTodosFailure } from './todo.action';
+import { ClearTodo, Create, CreateSuccess, Delete, Edit, Toggle, CreateFailure, ToggleSuccess, ToggleFailure, EditSuccess, EditFailure, DeleteSuccess, DeleteFailure, LoadTodos, LoadTodosSuccess, LoadTodosFailure, FilterTodo, FilterTodoSuccess, FilterTodoFailure } from './todo.action';
 
 export interface TodoState {
     todos: Todo[];
-    todo: Todo | null;
     error: ErrorModel | null;
     message: string;
     loading: boolean;
+    filter:Filter|null;
 }
 
 export const initialState: TodoState = {
     todos: [],
-    todo: null,
     error: null,
     message: '',
-    loading: false
+    loading: false,
+    filter:null
 
 };
 
@@ -115,6 +116,24 @@ const _todoReducer = createReducer(initialState,
     })),
 
     on(DeleteFailure, (state, { error }):TodoState => ({
+        ...state,
+        loading:false,
+        error
+    })),
+
+    on(FilterTodo, (state, {filter}):TodoState => ({
+        ...state,
+        loading:true,
+        filter
+    })),
+
+    on(FilterTodoSuccess, (state, { data }):TodoState => ({
+        ...state,
+        loading:false,
+        todos:data
+    })),
+
+    on(FilterTodoFailure, (state, { error }):TodoState => ({
         ...state,
         loading:false,
         error

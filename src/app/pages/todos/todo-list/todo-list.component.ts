@@ -20,6 +20,7 @@ export class TodoListComponent implements OnInit {
 
   }
   ngOnInit(): void {
+    // console.log('first')
     this.actualFilter$.subscribe({
       next: value => this.actualFilter = value
     })

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
+import { Filter } from 'src/app/Model/filter.interface';
 import { Todo } from 'src/app/Model/todo.model';
 
 @Injectable({
@@ -7,7 +9,7 @@ import { Todo } from 'src/app/Model/todo.model';
 })
 export class TodoService {
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) { }
 
   addTodo(title: string, todos:Todo[]): Observable<Todo[]> {
     let todo = new Todo(title);
@@ -55,8 +57,29 @@ export class TodoService {
 
   getTodos():Observable<Todo[]>{
     let todos = this.getTodo();
-    console.log('this.todsoguyoguys', todos)
     return of(todos);
+  }
+
+  filterTodos(filter:Filter):Observable<Todo[]>{
+    let todos: Todo[] = this.getTodo();
+    
+    this.route.url.subscribe(url => {
+      if (url.length > 0) {
+        if (url[0].path === 'Pending' && filter === 'Pending') 
+        {console.log('pasa'); return todos.filter(todo => !todo.completed)} else
+        if (url[0].path === 'Completed' && filter === 'Completed') 
+        { console.log('pasa2'); return todos.filter(todo => todo.completed)} else {
+          console.log('pasa 3');
+          return todos;
+        }
+        
+        //this.saveTodoInStorage(todos);
+      }
+      return todos;
+    })
+
+    return of(todos);
+    
   }
 
 

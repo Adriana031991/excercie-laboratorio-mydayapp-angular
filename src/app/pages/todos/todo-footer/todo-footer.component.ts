@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/app.reducer';
 import { Filter } from 'src/app/Model/filter.interface';
+import { Todo } from 'src/app/Model/todo.model';
 import { setFilter } from '../../store/filter.action';
-import { ClearTodo } from '../../store/todo.action';
+import { filter } from '../../store/filter.select';
+import { ClearTodo, FilterTodo } from '../../store/todo.action';
+import { todoQuery } from '../../store/todo.selector';
 
 @Component({
   selector: 'app-todo-footer',
@@ -12,28 +15,38 @@ import { ClearTodo } from '../../store/todo.action';
 })
 export class TodoFooterComponent implements OnInit {
 
-  actualFilter!: Filter;
+  actualFilter!:Filter;
   filters = Filter;
+  todos$ = this.store.select(todoQuery.todos);
+  actualFilter$ = this.store.select(filter);
+  countPending = 0;
+  countComplete = 0;
 
-  countPending= 0;
+  constructor(private store: Store) { }
 
-  constructor(private store: Store<AppState>){}
-  
   ngOnInit(): void {
-    this.store.subscribe({
-      next: state => {
-        this.actualFilter = state.filter.validateFilter;
-        this.countPending = state.todos.todos.filter(todo=>!todo.completed).length;
+    this.todos$.subscribe({
+      next: value => {
+        this.countPending = value.filter(todo => !todo.completed).length;
+        this.countComplete = value.filter(todo => todo.completed).length;
+        
       }
+    });
+    this.actualFilter$.subscribe({
+      next: value => { console.log('value', value); if(value != null) this.actualFilter = value}
     })
-    console.log('actualFilter', this.actualFilter)
   }
 
   selectFilter(filter: Filter){
     this.store.dispatch(setFilter({filter}));
   }
+  // selectFilter(filter: Filter) {
+  //   // this.store.dispatch(FilterTodo({ filter }))
+    
+  // }
 
-  clearCompleted(){
+
+  clearCompleted() {
     this.store.dispatch(ClearTodo());
   }
 

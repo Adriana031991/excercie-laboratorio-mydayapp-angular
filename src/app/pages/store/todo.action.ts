@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { ErrorModel } from 'src/app/Model/error.model';
+import { Filter } from 'src/app/Model/filter.interface';
 import { Todo } from 'src/app/Model/todo.model';
 
 export const LoadTodos = createAction('[TODO] LoadTodos todo');
@@ -22,5 +23,9 @@ export const EditFailure = createAction('[TODO] edit todo failure', props<{ erro
 export const Delete = createAction('[TODO] delete todo', props<{ id: string }>());
 export const DeleteSuccess = createAction('[TODO] delete todo success', props<{ text: string }>());
 export const DeleteFailure = createAction('[TODO] delete todo failure', props<{ error: ErrorModel }>());
+
+export const FilterTodo = createAction('[TODO] filter todo', props<{ filter: Filter }>());
+export const FilterTodoSuccess = createAction('[TODO] filter todo success', props<{ data: Todo[]  }>());
+export const FilterTodoFailure = createAction('[TODO] filter todo failure', props<{ error: ErrorModel }>());
 
 export const ClearTodo = createAction('[TODO] delete todo');

@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { TodoState } from "./todo.reducer";
+import { filter } from './filter.select';
 
 const selectTodo = createFeatureSelector<TodoState>('todos');
 
@@ -8,9 +9,9 @@ const todos = createSelector(
     (state: TodoState) => state.todos
 );
 
-const todo = createSelector(
+const filterTodo = createSelector(
     selectTodo,
-    (state: TodoState) => state.todo
+    (state: TodoState) => state.filter
 );
 
 const loading = createSelector(
@@ -23,9 +24,10 @@ const error = createSelector(
     (state: TodoState) => state.error
 );
 
+
 export const todoQuery = {
     todos,
-    todo,
     loading,
     error,
+    filterTodo
 }
