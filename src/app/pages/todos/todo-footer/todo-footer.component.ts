@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,  OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Filter } from 'src/app/Model/filter.interface';
-import { Todo } from 'src/app/Model/todo.model';
-import { setFilter } from '../../store/filter.action';
-import { filter } from '../../store/filter.select';
+import { Filter } from '../../store/filter.reducer';
+import { filterData } from '../../store/filter.select';
 import { ClearTodo, FilterTodo } from '../../store/todo.action';
 import { todoQuery } from '../../store/todo.selector';
 
@@ -18,11 +16,13 @@ export class TodoFooterComponent implements OnInit {
   actualFilter!:Filter;
   filters = Filter;
   todos$ = this.store.select(todoQuery.todos);
-  actualFilter$ = this.store.select(filter);
+  actualFilter$ = this.store.select(filterData);
   countPending = 0;
   countComplete = 0;
+  url:string ='';
 
-  constructor(private store: Store) { }
+  constructor(private store: Store, private activatedRoute: ActivatedRoute) { }
+
 
   ngOnInit(): void {
     this.todos$.subscribe({
@@ -33,18 +33,16 @@ export class TodoFooterComponent implements OnInit {
       }
     });
     this.actualFilter$.subscribe({
-      next: value => { console.log('value', value); if(value != null) this.actualFilter = value}
+      next: value => { if(value != null) this.actualFilter = value}
+    })
+    
+    this.activatedRoute.params.subscribe(params => {
+    this.store.dispatch(FilterTodo({ url:params['filter'] }))
+
+
     })
   }
-
-  selectFilter(filter: Filter){
-    this.store.dispatch(setFilter({filter}));
-  }
-  // selectFilter(filter: Filter) {
-  //   // this.store.dispatch(FilterTodo({ filter }))
-    
-  // }
-
+  
 
   clearCompleted() {
     this.store.dispatch(ClearTodo());

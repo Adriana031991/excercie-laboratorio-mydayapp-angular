@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { Filter } from 'src/app/Model/filter.interface';
+import {  Observable, of,  } from 'rxjs';
 import { Todo } from 'src/app/Model/todo.model';
-
+import { Filter } from '../store/filter.reducer';
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
 
-  constructor(private route: ActivatedRoute) { }
+  constructor() { }
 
-  addTodo(title: string, todos:Todo[]): Observable<Todo[]> {
+  addTodo(title: string, todos: Todo[]): Observable<Todo[]> {
     let todo = new Todo(title);
-    
+
     todos = [...todos, todo];
 
     this.saveTodoInStorage(todos);
@@ -34,19 +32,19 @@ export class TodoService {
     return of(todos);
   }
 
-  toggleCompletedTodo(id: string):Observable<Todo[]>{
+  toggleCompletedTodo(id: string): Observable<Todo[]> {
     let todos: Todo[] = this.getTodo();
     todos = todos.map((todo) => {
       if (todo.id === id) todo.completed = !todo.completed;
       return todo;
-      
+
     })
     this.saveTodoInStorage(todos);
     return of(todos);
 
   }
 
-  deleteTodo(id: string):Observable<string>{
+  deleteTodo(id: string): Observable<string> {
     let todos: Todo[] = this.getTodo();
     let todo = todos.find((todo) => todo.id === id);
     let idxTodo = todos.indexOf(todo!);
@@ -55,36 +53,34 @@ export class TodoService {
     return of(`Todo: ${todo?.title} was deleted`);
   }
 
-  getTodos():Observable<Todo[]>{
+  getTodos(): Observable<Todo[]> {
     let todos = this.getTodo();
     return of(todos);
   }
 
-  filterTodos(filter:Filter):Observable<Todo[]>{
+  filterTodos(url: string): Observable<Todo[]> {
     let todos: Todo[] = this.getTodo();
-    
-    this.route.url.subscribe(url => {
-      if (url.length > 0) {
-        if (url[0].path === 'Pending' && filter === 'Pending') 
-        {console.log('pasa'); return todos.filter(todo => !todo.completed)} else
-        if (url[0].path === 'Completed' && filter === 'Completed') 
-        { console.log('pasa2'); return todos.filter(todo => todo.completed)} else {
-          console.log('pasa 3');
-          return todos;
-        }
-        
-        //this.saveTodoInStorage(todos);
-      }
-      return todos;
-    })
 
+    if (url === Filter.pending) {
+      todos = todos.filter(todo => !todo.completed)
+    }
+    if (url === Filter.completed) {
+      todos = todos.filter(todo => todo.completed)
+    }
+    if (url === Filter.All) {
+      todos; 
+    }
     return of(todos);
-    
+
+
   }
 
-  clearCompleted():Observable<Todo[]>{
+  clearCompleted(): Observable<Todo[]> {
     let todos: Todo[] = this.getTodo();
-    return of(todos.filter(todo => !todo.completed))
+    todos = todos.filter(todo => !todo.completed)
+    this.saveTodoInStorage(todos);
+
+    return of(todos);
   }
 
   saveTodoInStorage(todos: Todo[]) {

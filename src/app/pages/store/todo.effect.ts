@@ -93,8 +93,10 @@ export class TodoEffects {
         return this.actions$.pipe(
             ofType(action.FilterTodo),
             exhaustMap(
-                ({filter}) => this.service.filterTodos(filter).pipe(
+                ({url}) => this.service.filterTodos(url).pipe(
                     map((data) => {
+                        console.log('entra2', data);
+
                         return action.FilterTodoSuccess({ data })
                     }
                     ),

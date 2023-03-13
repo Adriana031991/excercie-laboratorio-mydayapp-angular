@@ -206,6 +206,7 @@ test.describe('Clear completed button', () => {
   test('should be hidden when there are no items that are completed', async ({
     page,
   }) => {
+
     await page.locator('.todo-list li .toggle').first().check();
     await page.locator('.clear-completed').click();
     await expect(page.locator('.clear-completed')).toBeHidden();
@@ -215,7 +216,12 @@ test.describe('Clear completed button', () => {
 test.describe('Persistence', () => {
   test('should persist its data', async ({ page }) => {
     for (const item of TODO_ITEMS.slice(0, 2)) {
-      await page.locator('.new-todo').fill(item);
+      console.log(page.locator('app-new-todo').locator('input'));
+      
+      const t = await page.locator('app-new-todo').locator('input').fill(item);
+
+      console.log('t page 2', t);
+
       await page.locator('.new-todo').press('Enter');
     }
 

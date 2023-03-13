@@ -6,7 +6,6 @@
 
       <li *ngFor="let item of filters | keyvalue">
         <a 
-        (click)="selectFilter(item.value)" 
         [class.selected]="item.value === actualFilter"
         routerLink="/{{item.value}}" routerLinkActive="selected" 
         >

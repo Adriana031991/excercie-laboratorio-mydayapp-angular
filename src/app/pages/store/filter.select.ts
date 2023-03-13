@@ -1,10 +1,10 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { FilterState } from "src/app/Model/filter.interface";
+import { FilterState } from "./filter.reducer";
 
 const selectFilter = createFeatureSelector<FilterState>('filter');
 
 
-export const filter = createSelector(
+export const filterData = createSelector(
     selectFilter,
     (state: FilterState) => state.validateFilter
 );

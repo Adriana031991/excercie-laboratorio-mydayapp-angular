@@ -9,9 +9,6 @@ export class FilterPipe implements PipeTransform {
 
   transform( todos: Todo[], filter: Filter ): Todo[] {
 
-
-    // console.log('todos', todos);
-    // console.log('filter', filter);
     switch( filter ) {
       case "Completed":
         return todos.filter( todo => todo.completed );

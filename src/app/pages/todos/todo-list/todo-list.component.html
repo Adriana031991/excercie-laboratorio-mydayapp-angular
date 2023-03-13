@@ -1,8 +1,8 @@
 <section class="main">
-  <ul class="todo-list">
+  <ul class="todo-list" >
 
-    <app-todo-item *ngFor="let item of todos! | filter:actualFilter" [todo]="item">
-    <!-- <app-todo-item *ngFor="let item of todos " [todo]="item"> -->
+    <!-- <app-todo-item *ngFor="let item of todos! | filter:actualFilter" [todo]="item"> -->
+    <app-todo-item *ngFor="let item of todos " [todo]="item">
     </app-todo-item>
 
 

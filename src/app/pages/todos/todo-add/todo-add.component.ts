@@ -1,13 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/app.reducer';
 import { Todo } from 'src/app/Model/todo.model';
-import { TodoService } from '../../services/todo-service.service';
 import { Create } from '../../store/todo.action';
 
 @Component({
-  selector: 'app-todo-add',
+  selector: 'app-new-todo',
   templateUrl: './todo-add.component.html',
   styleUrls: ['./todo-add.component.css']
 })
