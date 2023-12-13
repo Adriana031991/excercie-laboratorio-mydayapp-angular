@@ -1,7 +1,8 @@
 import { createAction, props } from '@ngrx/store';
-import { Filter } from 'src/app/Model/filter.interface';
+// import { Filter } from 'src/app/Model/filter.interface';
 import { Todo } from 'src/app/Model/todo.model';
 import { ErrorModel } from '../../Model/error.model';
+import { Filter } from './filter.reducer';
 
 export const setFilter = createAction(
     '[FILTER] filter todo',
