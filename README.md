@@ -1,3 +1,5 @@
+# Depoy 
+El deploy de este projecto se realizo en Netlify y el link es https://todoappexercise.netlify.app/
 # MyDayApp - Angular
 
 MyDayApp es una aplicación para gestionar tareas de forma sencilla, fácil y en donde pondrás a pruebas tus conocimientos en Angular.
